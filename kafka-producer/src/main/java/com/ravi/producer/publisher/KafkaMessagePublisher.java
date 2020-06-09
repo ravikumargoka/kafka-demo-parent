@@ -7,9 +7,14 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import static com.ravi.producer.constants.KafkaConstants.*;
@@ -18,6 +23,8 @@ import static com.ravi.producer.constants.KafkaConstants.*;
 public class KafkaMessagePublisher<K extends Serializable, V extends Serializable> {
 
     private static final Logger LOG = LoggerFactory.getLogger(KafkaMessagePublisher.class);
+
+    private final KafkaTemplate template = new KafkaTemplate(producerFactory());
 
     private final Producer producer = new org.apache.kafka.clients.producer.KafkaProducer(loadProperties());
 
@@ -30,12 +37,20 @@ public class KafkaMessagePublisher<K extends Serializable, V extends Serializabl
                     KafkaProducerConfiguration.get().getConfig(KAFKA_TOPIC_NAME), message.getMessageKey().getKeyObj().toString(), message);
             LOG.info("Kafka message key : " + message.getMessageKey().getKeyObj());
             LOG.info("Kafka message value : " + message.getMessageValue().getValueObj());
-            producer.send(producerRecord);
+            template.send(producerRecord);
         }
         catch(Exception ex){
             LOG.error("Error occurred while publishing the data to Kafka", ex);
         }
 
+    }
+
+    private ProducerFactory producerFactory() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaProducerConfiguration.get().getConfig(KAFKA_BOOTSTRAP_SERVERS));
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, KafkaProducerConfiguration.get().getConfig(KAFKA_KEY_SERIALIZER_CLASS));
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaProducerConfiguration.get().getConfig(KAFKA_VALUE_SERIALIZER_CLASS));
+        return new DefaultKafkaProducerFactory<>(config);
     }
 
     private Properties loadProperties(){
