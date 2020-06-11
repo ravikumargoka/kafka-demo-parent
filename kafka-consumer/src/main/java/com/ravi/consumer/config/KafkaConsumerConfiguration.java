@@ -1,5 +1,6 @@
 package com.ravi.consumer.config;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -17,8 +18,8 @@ public class KafkaConsumerConfiguration {
     private KafkaConsumerConfiguration(){
         try {
             kafkaProperties = loadProperties();
-        } catch (IOException e) {
-            LOG.error("Error initializing KafkaConfiguration", e);
+        } catch (IOException ex) {
+            LOG.error("Error initializing Kafka Consumer Configuration", ex);
         }
     }
     public static KafkaConsumerConfiguration get() {
@@ -30,15 +31,15 @@ public class KafkaConsumerConfiguration {
 
     public String getConfig(String key) {
         //To override the config property with a VM argument
-        String cfg = System.getProperty(key);
-        if(cfg == null) {
-            cfg = kafkaProperties.getProperty(key);
+        String sysProperty = System.getProperty(key);
+        if(StringUtils.isBlank(sysProperty)) {
+            sysProperty = kafkaProperties.getProperty(key);
         }
-        return cfg;
+        return sysProperty;
     }
     private Properties loadProperties() throws IOException {
-        Resource fileAsResource = new ClassPathResource(KAFKA_PROPS_FILE);
-        Properties props = PropertiesLoaderUtils.loadProperties(fileAsResource);
-        return props;
+        Resource fileResource = new ClassPathResource(KAFKA_PROPS_FILE);
+        Properties consumerProperties = PropertiesLoaderUtils.loadProperties(fileResource);
+        return consumerProperties;
     }
 }

@@ -21,7 +21,7 @@ public class KafkaProducerClient {
     private KafkaService kafkaService;
     private void start(){
         LOG.info("the user service: {}", kafkaService);
-        kafkaService.publishMessage(1234, "ravi goka" );
+        kafkaService.publishMessage("12345681", "ravi K goka" );
     }
 
 }

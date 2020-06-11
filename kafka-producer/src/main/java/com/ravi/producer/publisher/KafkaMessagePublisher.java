@@ -1,8 +1,7 @@
 package com.ravi.producer.publisher;
 
-import com.ravi.common.message.KafkaMessage;
+import com.ravi.common.message.GenericKafkaMessage;
 import com.ravi.producer.config.KafkaProducerConfiguration;
-import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
@@ -10,12 +9,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import static com.ravi.producer.constants.KafkaConstants.*;
 
@@ -24,25 +25,41 @@ public class KafkaMessagePublisher<K extends Serializable, V extends Serializabl
 
     private static final Logger LOG = LoggerFactory.getLogger(KafkaMessagePublisher.class);
 
-    private final KafkaTemplate template = new KafkaTemplate(producerFactory());
+    private final KafkaTemplate template = new KafkaTemplate(producerFactory(), true);
 
-    private final Producer producer = new org.apache.kafka.clients.producer.KafkaProducer(loadProperties());
-
-
-    public void send(KafkaMessage<K, V> message) {
+    public void send(GenericKafkaMessage<K, V> message) {
         try {
             String topicName = KafkaProducerConfiguration.get().getConfig(KAFKA_TOPIC_NAME);
-            LOG.info("The topic name: {}", topicName);
-            ProducerRecord<String, KafkaMessage<K, V>> producerRecord = new ProducerRecord(
-                    KafkaProducerConfiguration.get().getConfig(KAFKA_TOPIC_NAME), message.getMessageKey().getKeyObj().toString(), message);
-            LOG.info("Kafka message key : " + message.getMessageKey().getKeyObj());
-            LOG.info("Kafka message value : " + message.getMessageValue().getValueObj());
+            ProducerRecord<String, GenericKafkaMessage<K, V>> producerRecord = new ProducerRecord(topicName, message.getMessageKey().getKeyObj().toString(), message);
             template.send(producerRecord);
         }
         catch(Exception ex){
             LOG.error("Error occurred while publishing the data to Kafka", ex);
         }
 
+    }
+
+    public void sendWithCallback(GenericKafkaMessage<K, V> message) {
+        try {
+            String topicName = KafkaProducerConfiguration.get().getConfig(KAFKA_TOPIC_NAME);
+            ProducerRecord<String, GenericKafkaMessage<K, V>> producerRecord = new ProducerRecord(topicName, message.getMessageKey().getKeyObj().toString(), message);
+            ListenableFuture<SendResult<String, GenericKafkaMessage<K, V>>>future = template.send(producerRecord);
+            future.addCallback(new ListenableFutureCallback<SendResult<String, GenericKafkaMessage<K, V>>>() {
+                @Override
+                public void onSuccess(SendResult<String, GenericKafkaMessage<K, V>> result) {
+                    LOG.info("Sent message=[" + message +
+                            "] with offset=[" + result.getRecordMetadata().offset() + "]");
+                }
+                @Override
+                public void onFailure(Throwable ex) {
+                    LOG.error("Unable to send message=["
+                            + message + "] due to : ", ex);
+                }
+            });
+        }
+        catch(Exception ex){
+            LOG.error("Error occurred while publishing the data to Kafka", ex);
+        }
     }
 
     private ProducerFactory producerFactory() {
@@ -52,13 +69,4 @@ public class KafkaMessagePublisher<K extends Serializable, V extends Serializabl
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaProducerConfiguration.get().getConfig(KAFKA_VALUE_SERIALIZER_CLASS));
         return new DefaultKafkaProducerFactory<>(config);
     }
-
-    private Properties loadProperties(){
-        Properties kafkaProperties = new Properties();
-        kafkaProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaProducerConfiguration.get().getConfig(KAFKA_BOOTSTRAP_SERVERS));
-        kafkaProperties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, KafkaProducerConfiguration.get().getConfig(KAFKA_KEY_SERIALIZER_CLASS));
-        kafkaProperties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaProducerConfiguration.get().getConfig(KAFKA_VALUE_SERIALIZER_CLASS));
-        return kafkaProperties;
-    }
-
 }

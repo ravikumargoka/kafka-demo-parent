@@ -1,6 +1,6 @@
 package com.ravi.producer.service.impl;
 
-import com.ravi.common.message.KafkaMessage;
+import com.ravi.common.message.GenericKafkaMessage;
 import com.ravi.producer.publisher.KafkaMessagePublisher;
 import com.ravi.producer.service.KafkaService;
 
@@ -21,8 +21,8 @@ public class KafkaServiceImpl implements KafkaService {
 
     @Override
     public  <K extends Serializable, V extends Serializable> void publishMessage(K key, V value){
-        KafkaMessage.MessageKey<K> messageKey = new KafkaMessage.MessageKey<>(key.getClass().toString(), key);
-        KafkaMessage.MessageValue<V> messageValue = value == null ? null : new KafkaMessage.MessageValue<>(value.getClass().toString(), value);
-        publisher.send(new KafkaMessage<>(messageKey, messageValue));
+        GenericKafkaMessage.MessageKey<K> messageKey = new GenericKafkaMessage.MessageKey<>(key.getClass().toString(), key);
+        GenericKafkaMessage.MessageValue<V> messageValue = value == null ? null : new GenericKafkaMessage.MessageValue<>(value.getClass().toString(), value);
+        publisher.send(new GenericKafkaMessage<>(messageKey, messageValue));
     }
 }

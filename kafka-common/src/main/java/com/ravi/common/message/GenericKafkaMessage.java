@@ -2,7 +2,7 @@ package com.ravi.common.message;
 
 import java.io.Serializable;
 
-public class KafkaMessage<K extends Serializable, V extends Serializable> implements Serializable {
+public class GenericKafkaMessage<K extends Serializable, V extends Serializable> implements Serializable {
 
     private static final long serialVersionUID = -3538697929953718028L;
 
@@ -18,7 +18,7 @@ public class KafkaMessage<K extends Serializable, V extends Serializable> implem
         return messageKey;
     }
 
-    public KafkaMessage(MessageKey<K> messageKey, MessageValue<V> messageValue) {
+    public GenericKafkaMessage(MessageKey<K> messageKey, MessageValue<V> messageValue) {
         super();
         this.messageKey = messageKey;
         this.messageValue = messageValue;
