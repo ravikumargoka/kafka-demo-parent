@@ -21,6 +21,7 @@ bin/zookeeper-server-start.sh config/zookeeper.properties
 bin/kafka-server-start.sh config/server.properties
 
 Create a topic with name 'ravi-test'
+Run the main classes of producer and consumer.
 ```
 
 ## Contributing
