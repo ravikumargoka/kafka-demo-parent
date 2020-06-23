@@ -1,4 +1,4 @@
-package com.ravi.producer.client;
+package com.ravi.producer;
 
 import com.ravi.producer.service.KafkaService;
 import org.slf4j.Logger;
@@ -8,7 +8,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan(basePackages = "com.ravi")
 public class KafkaProducerClient {
     private static final Logger LOG = LoggerFactory.getLogger(KafkaProducerClient.class);
     public static void main(String args[]){
