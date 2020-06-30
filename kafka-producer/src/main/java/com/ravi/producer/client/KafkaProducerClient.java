@@ -1,4 +1,4 @@
-package com.ravi.producer;
+package com.ravi.producer.client;
 
 import com.ravi.producer.service.KafkaService;
 import org.slf4j.Logger;
