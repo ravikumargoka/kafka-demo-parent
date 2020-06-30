@@ -67,6 +67,7 @@ public class KafkaMessagePublisher<K extends Serializable, V extends Serializabl
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaProducerConfiguration.get().getConfig(KAFKA_BOOTSTRAP_SERVERS));
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, KafkaProducerConfiguration.get().getConfig(KAFKA_KEY_SERIALIZER_CLASS));
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaProducerConfiguration.get().getConfig(KAFKA_VALUE_SERIALIZER_CLASS));
+        config.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, KafkaProducerConfiguration.get().getConfig(KAFKA_COMPRESSION_TYPE));
         return new DefaultKafkaProducerFactory<>(config);
     }
 }
