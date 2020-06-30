@@ -11,14 +11,15 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = "com.ravi")
 public class KafkaConsumerClient {
     private static final Logger LOG = LoggerFactory.getLogger(KafkaConsumerClient.class);
+
+    @Autowired
+    private UserService userService;
+
     public static void main(String args[]){
         ApplicationContext context = new AnnotationConfigApplicationContext(KafkaConsumerClient.class);
         KafkaConsumerClient client = context.getBean(KafkaConsumerClient.class);
         client.start();
     }
-
-    @Autowired
-    private UserService userService;
 
     private void start(){
         LOG.info("the user service: {}", userService);

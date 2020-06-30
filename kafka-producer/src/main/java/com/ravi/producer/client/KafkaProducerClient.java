@@ -11,17 +11,18 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = "com.ravi")
 public class KafkaProducerClient {
     private static final Logger LOG = LoggerFactory.getLogger(KafkaProducerClient.class);
+
+    @Autowired
+    private KafkaService kafkaService;
+
     public static void main(String args[]){
         ApplicationContext context = new AnnotationConfigApplicationContext(KafkaProducerClient.class);
         KafkaProducerClient client = context.getBean(KafkaProducerClient.class);
         client.start();
     }
-
-    @Autowired
-    private KafkaService kafkaService;
     private void start(){
         LOG.info("the user service: {}", kafkaService);
-        kafkaService.publishMessage("12345681", "ravi K goka" );
+        kafkaService.publishMessage("1001", "Your name" );
     }
 
 }

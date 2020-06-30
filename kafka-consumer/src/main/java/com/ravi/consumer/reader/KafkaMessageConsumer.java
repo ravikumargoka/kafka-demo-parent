@@ -36,7 +36,7 @@ public class KafkaMessageConsumer<K extends Serializable, V extends Serializable
                 }
                 for (ConsumerRecord<K, GenericKafkaMessage<K, V>> record : records) {
                     GenericKafkaMessage genericKafkaMessage = record.value();
-                    LOG.info("The message details: the key: {} and the value {}", genericKafkaMessage.getMessageKey().getKeyObj(), genericKafkaMessage.getMessageValue().getValueObj());
+                    LOG.info("The message details: the key: {} and the value {}", genericKafkaMessage.getMessageKey().getKeyObj(), genericKafkaMessage.getMessageValue() != null ? genericKafkaMessage.getMessageValue().getValueObj() : null);
                 }
                 consumer.commitAsync();
             }

@@ -22,7 +22,13 @@ public class KafkaServiceImpl implements KafkaService {
     @Override
     public  <K extends Serializable, V extends Serializable> void publishMessage(K key, V value){
         GenericKafkaMessage.MessageKey<K> messageKey = new GenericKafkaMessage.MessageKey<>(key.getClass().toString(), key);
-        GenericKafkaMessage.MessageValue<V> messageValue = value == null ? null : new GenericKafkaMessage.MessageValue<>(value.getClass().toString(), value);
+        GenericKafkaMessage.MessageValue<V> messageValue;
+        if(null != value){
+            messageValue = new GenericKafkaMessage.MessageValue<>(value.getClass().toString(), value);
+        }
+        else{
+            messageValue = null;
+        }
         publisher.send(new GenericKafkaMessage<>(messageKey, messageValue));
     }
 }
