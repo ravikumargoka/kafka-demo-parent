@@ -23,7 +23,8 @@ public class KafkaConsumerClient {
 
     private void start(){
         LOG.info("the user service: {}", userService);
-        userService.getUser();
+        //userService.getUser();
+        userService.consumeConcurrent();
     }
 
 }

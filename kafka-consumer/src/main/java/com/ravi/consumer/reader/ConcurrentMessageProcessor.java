@@ -43,7 +43,7 @@ public class ConcurrentMessageProcessor<K extends Serializable, V extends Serial
                 ConsumerRecords<K, GenericKafkaMessage<K, V>> records = pollRecords();
                 for (ConsumerRecord<K, GenericKafkaMessage<K, V>> record : records) {
                     GenericKafkaMessage genericKafkaMessage = record.value();
-                    LOG.info("Thread id: "+id+" :: The topic name: "+record.topic()+" :: partition: "+record.partition()+" :: offset: "+record.offset());
+                    LOG.info("Thread id: {}, The topic name: {}, partition: {}, offset: {}", id, record.topic(), record.partition(), record.offset());
                     LOG.info("The message details: the key: {} and the value {}", genericKafkaMessage.getMessageKey().getKeyObj(), genericKafkaMessage.getMessageValue() != null ? genericKafkaMessage.getMessageValue().getValueObj() : null);
                 }
                 consumer.commitAsync();

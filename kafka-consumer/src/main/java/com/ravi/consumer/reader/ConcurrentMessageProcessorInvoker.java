@@ -2,6 +2,7 @@ package com.ravi.consumer.reader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Class to invoke concurrent consumer
  */
+@Component
 public class ConcurrentMessageProcessorInvoker {
 
     private static final Logger LOG = LoggerFactory.getLogger(ConcurrentMessageProcessorInvoker.class);

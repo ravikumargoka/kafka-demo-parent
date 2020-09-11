@@ -36,6 +36,7 @@ public class KafkaMessageConsumer<K extends Serializable, V extends Serializable
                 }
                 for (ConsumerRecord<K, GenericKafkaMessage<K, V>> record : records) {
                     GenericKafkaMessage genericKafkaMessage = record.value();
+                    LOG.info("The message details are :: partition: {}, offset: {}, headers: {}", record.partition(), record.offset(), record.headers());
                     LOG.info("The message details: the key: {} and the value {}", genericKafkaMessage.getMessageKey().getKeyObj(), genericKafkaMessage.getMessageValue() != null ? genericKafkaMessage.getMessageValue().getValueObj() : null);
                 }
                 consumer.commitAsync();
@@ -50,7 +51,7 @@ public class KafkaMessageConsumer<K extends Serializable, V extends Serializable
     }
 
     ConsumerRecords<K, GenericKafkaMessage<K, V>> pollRecords() {
-        return consumer.poll(Duration.ofMillis(Long.MAX_VALUE));
+        return consumer.poll(Duration.ofMillis(10000));
     }
 
     private Properties initConsumer() {

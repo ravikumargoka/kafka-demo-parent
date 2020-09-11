@@ -22,7 +22,9 @@ public class KafkaProducerClient {
     }
     private void start(){
         LOG.info("the user service: {}", kafkaService);
-        kafkaService.publishMessage("1001", "Your name" );
+        for(int i =0; i < 1000000; i++) {
+            kafkaService.publishMessage(i, "Goka family"+i);
+        }
     }
 
 }
