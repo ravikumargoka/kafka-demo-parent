@@ -20,7 +20,7 @@ Run from the <Kafka root directory>
 bin/zookeeper-server-start.sh config/zookeeper.properties
 bin/kafka-server-start.sh config/server.properties
 
-Create a topic with name 'ravi-test'
+Create a topic with name as configured in kafka.properties file of both producer and consumer
 Run the main classes of producer and consumer.
 
 To achieve the log compaction. Create a topic and run the producer and consumer on command line from the <kafka home diretory>\bin:
