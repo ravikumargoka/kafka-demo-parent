@@ -6,7 +6,7 @@ It has a stand alone consumer and producer, which can be run normal main method.
 ## Installation
 
 Download and install (extract) the binaries from:
-<a href="https://kafka.apache.org/downloads">Kafka Downloads</a>
+<a href="https://kafka.apache.org/downloads" targer="_blank">Kafka Downloads</a>
 ```
 Instructions:
 Start the Kafka by starting zookeeper and kafka server as follows:
