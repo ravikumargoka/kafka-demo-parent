@@ -18,7 +18,7 @@ public class MessageDeserializer implements Deserializer<GenericKafkaMessage> {
         try(ObjectInputStream oos = new ObjectInputStream(new ByteArrayInputStream(arg1))) {
             genericKafkaMessage = (GenericKafkaMessage) oos.readObject();
         } catch (Exception e) {
-            LOG.error("Error during serialization." + s, e);
+            LOG.error("Error during de-serialization of input string: " + s, e);
         }
         return genericKafkaMessage;
     }
