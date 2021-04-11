@@ -6,7 +6,7 @@ It has a stand alone consumer and producer, which can be run normal main method.
 ## Installation
 
 Download and install (extract) the binaries from:
-<a href="https://kafka.apache.org/downloads" target="_blank" rel="noopener noreferrer">Kafka Downloads</a>
+<a href="#" onclick='window.open("https://kafka.apache.org/downloads");return false;'>Kafka Downloads</a>
 
 ```
 Instructions:
