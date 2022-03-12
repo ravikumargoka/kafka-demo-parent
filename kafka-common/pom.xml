@@ -15,6 +15,15 @@
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>
@@ -32,7 +41,7 @@
                 <configuration>
                     <toolchains>
                         <jdk>
-                            <version>10</version>
+                            <version>11</version>
                         </jdk>
                     </toolchains>
                 </configuration>

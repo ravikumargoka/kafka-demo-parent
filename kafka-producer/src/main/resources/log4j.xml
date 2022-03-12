@@ -3,17 +3,17 @@
 <log4j:configuration debug="true"
                      xmlns:log4j='http://jakarta.apache.org/log4j/'>
     <appender name="file" class="org.apache.log4j.RollingFileAppender">
-        <param name="append" value="false" />
-        <param name="maxFileSize" value="100MB" />
-        <param name="maxBackupIndex" value="1000" />
-        <param name="file" value="/tmp/kafka-demo/producer.log" />
+        <param name="append" value="false"/>
+        <param name="maxFileSize" value="100MB"/>
+        <param name="maxBackupIndex" value="1000"/>
+        <param name="file" value="/tmp/kafka-demo/producer.log"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
-                   value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m - %n - %t" />
+                   value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m - %n - %t"/>
         </layout>
     </appender>
     <root>
-        <level value="info" />
-        <appender-ref ref="file" />
+        <level value="info"/>
+        <appender-ref ref="file"/>
     </root>
 </log4j:configuration>

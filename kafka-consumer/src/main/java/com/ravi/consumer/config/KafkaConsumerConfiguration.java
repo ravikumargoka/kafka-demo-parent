@@ -15,15 +15,17 @@ public class KafkaConsumerConfiguration {
     private static final String KAFKA_PROPS_FILE = "kafka.properties";
     private Properties kafkaProperties;
     private static KafkaConsumerConfiguration INSTANCE;
-    private KafkaConsumerConfiguration(){
+
+    private KafkaConsumerConfiguration() {
         try {
             kafkaProperties = loadProperties();
         } catch (IOException ex) {
             LOG.error("Error initializing Kafka Consumer Configuration", ex);
         }
     }
+
     public static KafkaConsumerConfiguration get() {
-        if(null == INSTANCE){
+        if (null == INSTANCE) {
             INSTANCE = new KafkaConsumerConfiguration();
         }
         return INSTANCE;
@@ -32,11 +34,12 @@ public class KafkaConsumerConfiguration {
     public String getConfig(String key) {
         //To override the config property with a VM argument
         String sysProperty = System.getProperty(key);
-        if(StringUtils.isBlank(sysProperty)) {
+        if (StringUtils.isBlank(sysProperty)) {
             sysProperty = kafkaProperties.getProperty(key);
         }
         return sysProperty;
     }
+
     private Properties loadProperties() throws IOException {
         Resource fileResource = new ClassPathResource(KAFKA_PROPS_FILE);
         Properties consumerProperties = PropertiesLoaderUtils.loadProperties(fileResource);

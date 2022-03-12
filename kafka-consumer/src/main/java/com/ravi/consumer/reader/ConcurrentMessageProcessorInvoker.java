@@ -20,9 +20,10 @@ public class ConcurrentMessageProcessorInvoker {
 
     /**
      * Method to process all the kafka messages concurrently
+     *
      * @param noOfConsumers aka no. of threads
      */
-    public void consumeMessages(int noOfConsumers){
+    public void consumeMessages(int noOfConsumers) {
         ExecutorService executor = Executors.newFixedThreadPool(noOfConsumers);
 
         final List<ConcurrentMessageProcessor> consumers = new ArrayList<>();

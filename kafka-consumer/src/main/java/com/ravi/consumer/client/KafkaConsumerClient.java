@@ -15,13 +15,13 @@ public class KafkaConsumerClient {
     @Autowired
     private UserService userService;
 
-    public static void main(String args[]){
+    public static void main(String args[]) {
         ApplicationContext context = new AnnotationConfigApplicationContext(KafkaConsumerClient.class);
         KafkaConsumerClient client = context.getBean(KafkaConsumerClient.class);
         client.start();
     }
 
-    private void start(){
+    private void start() {
         LOG.info("the user service: {}", userService);
         //userService.getUser();
         userService.consumeConcurrent();

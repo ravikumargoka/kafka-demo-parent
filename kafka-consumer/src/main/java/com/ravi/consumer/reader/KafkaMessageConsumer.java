@@ -44,7 +44,7 @@ public class KafkaMessageConsumer<K extends Serializable, V extends Serializable
         } catch (Exception ex) {
             LOG.error("Error occurred while consuming the messages", ex);
         } finally {
-            if(null != consumer) {
+            if (null != consumer) {
                 consumer.close();
             }
         }

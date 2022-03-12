@@ -13,10 +13,10 @@ import java.util.Arrays;
 import java.util.Properties;
 
 import static com.ravi.consumer.constants.KafkaConstants.*;
-import static com.ravi.consumer.constants.KafkaConstants.KAFKA_AUTO_OFFSET_RESET_CONFIG;
 
 /**
  * Class to consume messages concurrently
+ *
  * @param <K>
  * @param <V>
  */
@@ -50,8 +50,7 @@ public class ConcurrentMessageProcessor<K extends Serializable, V extends Serial
             }
         } catch (WakeupException e) {
             // ignore for shutdown
-        }
-        finally {
+        } finally {
             consumer.close();
         }
     }

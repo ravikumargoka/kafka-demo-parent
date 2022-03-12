@@ -15,7 +15,7 @@ public class MessageDeserializer implements Deserializer<GenericKafkaMessage> {
     @Override
     public GenericKafkaMessage deserialize(String s, byte[] arg1) {
         GenericKafkaMessage genericKafkaMessage = null;
-        try(ObjectInputStream oos = new ObjectInputStream(new ByteArrayInputStream(arg1))) {
+        try (ObjectInputStream oos = new ObjectInputStream(new ByteArrayInputStream(arg1))) {
             genericKafkaMessage = (GenericKafkaMessage) oos.readObject();
         } catch (Exception e) {
             LOG.error("Error during de-serialization of input string: " + s, e);

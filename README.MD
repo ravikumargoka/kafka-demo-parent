@@ -3,6 +3,10 @@
 This project has a Kafka producer and Kafka consumer. To make it clear and simple, I haven't used any Spring boot capabilities.
 It has a stand alone consumer and producer, which can be run normal main method.
 
+### Tool chain config
+- This project uses maven tool chain. I have added the toolchains.xml to the project repo. Copy this file to your .m2 directory.
+- Update the java versions and paths accordingly in the toolchains.xml.
+
 ## Installation
 
 Download and install (extract) the binaries from:

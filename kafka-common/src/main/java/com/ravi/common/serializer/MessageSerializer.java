@@ -16,7 +16,7 @@ public class MessageSerializer implements org.apache.kafka.common.serialization.
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(arrayOutputStream)) {
             objectOutputStream.writeObject(o);
         } catch (IOException e) {
-            LOG.error("Error during serialization of input string: " +s, e);
+            LOG.error("Error during serialization of input string: " + s, e);
             return new byte[0];
         }
         return arrayOutputStream.toByteArray();
